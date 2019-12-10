@@ -4,10 +4,13 @@ import coursework.StockItem;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.FontMetrics;
 
 public class Stock extends JPanel implements ActionListener, Displayable {
     /**
@@ -16,6 +19,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
     private static final long serialVersionUID = 1L;
     private static ArrayList<StockItem> myQuotes = new ArrayList<>();
     private ArrayList<StockItem> tickerData = new ArrayList<>();
+    private Locale locale;
     private String ticker;
     private int year;
     private static long maxVolume = 0;
@@ -23,12 +27,11 @@ public class Stock extends JPanel implements ActionListener, Displayable {
     private static double lowest = 100000;
     private static int totalNumber = 0;
 
-    private final int priceHeight = 200;
-    private final int volumeHeight = 80;
-
-    public Stock(String ticker, int year) {
+    public Stock(String ticker, int year, Locale locale) {
+        System.out.println(ticker + year);
         this.ticker = ticker;
         this.year = year;
+        this.locale = locale;
 
         try {
             BufferedReader in = new BufferedReader(new FileReader("priceData.txt"));
@@ -40,6 +43,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
                 int month = Integer.parseInt(date[1]);
                 int day = Integer.parseInt(date[0]);
 
+
                 StockItem stockItem = new StockItem(array[0], LocalDate.of(year1, month, day), Double.valueOf(array[2]),
                         Double.valueOf(array[3]), Double.valueOf(array[4]), Double.valueOf(array[5]),
                         Long.valueOf(array[6]));
@@ -50,36 +54,14 @@ public class Stock extends JPanel implements ActionListener, Displayable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        // getVolumesByTicker("XOM", 2009);
     }
-
-    public static void main(String[] args) throws Exception {
-
-    }
-
-    // public static void printVolumesOnDate(LocalDate date) {
-    // // for (StockPrice sp : myQuotes) {
-    // // if (sp.getDate().equals(date)) {
-    // // System.out.println(sp.getTicker() + " volume on " + date + " = " +
-    // // sp.getVolume());
-    // // }
-    // // }
-    // myQuotes.stream().filter(sp -> sp.getDate().equals(date))
-    // .forEach(sp -> System.out.println(sp.getTicker() + " volume on " + date + " =
-    // " + sp.getVolume()));
-    // }
-
-    // public static void printTotalVolumesForMonth(YearMonth month) {
-    // long volume = 0;
-
-    // volume = myQuotes.stream().filter(sp ->
-    // YearMonth.from(sp.getDate()).equals(month))
-    // .mapToLong(sp -> sp.getVolume()).sum();
-
-    // System.out.println("Stream volume for " + month + " = " + volume);
-    // }
 
     public void drawVolumesByTicker(Graphics g) {
+        maxVolume = 0;
+        highest = 0;
+        lowest = 100000;
+        totalNumber = 0;
+        tickerData = new ArrayList<>();
         myQuotes.stream().filter(si -> (si.getTicker().equals(this.ticker)) && (si.getDate().getYear() == this.year))
                 .forEach(si -> {
                     tickerData.add(si);
@@ -94,6 +76,9 @@ public class Stock extends JPanel implements ActionListener, Displayable {
                     }
                     totalNumber++;
                 });
+
+        System.out.println("totalNumber" + totalNumber);
+        
 
         int height = 1;
         int width = 5;
@@ -114,9 +99,9 @@ public class Stock extends JPanel implements ActionListener, Displayable {
             StockItem si = tickerData.get(i);
 
             if (si.getOpen() > si.getClose()) {
-                color = new Color(255, 1, 3);
+                color = this.getDownColorByLocale();
             } else {
-                color = new Color(0, 128, 0);
+                color = this.getUpColorByLocale();
             }
             top = (int) (initTop + (highest - si.getHigh()) * heightStep);
             height = (int) ((si.getHigh() - si.getLow()) * heightStep);
@@ -125,13 +110,13 @@ public class Stock extends JPanel implements ActionListener, Displayable {
             g.fillRect(left, top, width, height);
 
             double volumeInterval = (double) 80 / maxVolume;
-            System.out.println("volumeInterval" + volumeInterval);
+            // System.out.println("volumeInterval" + volumeInterval);
 
             double volumeHeight = volumeInterval * si.getVolume();
-            System.out.println("volumeHeight" + volumeHeight);
+            // System.out.println("volumeHeight" + volumeHeight);
 
             int volumeTop = (int) (400 - volumeHeight);
-            System.out.println("volumeTop" + volumeTop);
+            // System.out.println("volumeTop" + volumeTop);
 
             g.drawRect(left, volumeTop, width, (int) volumeHeight);
             g.fillRect(left, volumeTop, width, (int) volumeHeight);
@@ -148,18 +133,43 @@ public class Stock extends JPanel implements ActionListener, Displayable {
 
             left += interval + width;
         }
-        System.out.println(this.ticker);
-        System.out.println(this.year);
+        // System.out.println(this.ticker);
+        // System.out.println(this.year);
 
-        System.out.println(maxVolume);
-        System.out.println(highest);
-        System.out.println(lowest);
-        System.out.println(totalNumber);
+        // System.out.println(maxVolume);
+        // System.out.println(highest);
+        // System.out.println(lowest);
+        // System.out.println(totalNumber);
 
-        g.drawString(ticker + " " + year, 780, 80);
+        Font font = new Font("SANS-SERIF", Font.BOLD, 15);
+        g.setFont(font);
+        g.drawString("Locale: " + this.locale, 780, 30);
+        g.drawString("Ticker: " + this.ticker, 780, 60);
+        g.drawString("Year: " + this.year, 780, 90);
+
+        font = new Font("SANS-SERIF", Font.BOLD, 20);
+        g.setFont(font);
         g.drawString("Price", 20, 180);
         g.drawString("Volume", 20, 370);
 
+
+    }
+
+    public Color getUpColorByLocale() {
+        System.out.println(this.locale.toString());
+        if (this.locale.toString().equals("zh_CN_#Hans")) {
+            return new Color(255, 1, 3);
+        }  else {
+            return new Color(0, 128, 0);
+        }
+    }
+
+    public Color getDownColorByLocale() {
+        if (this.locale.toString().equals("zh_CN_#Hans")) {
+            return new Color(0, 128, 0);
+        }  else {
+            return new Color(255, 1, 3);
+        }
     }
 
     @Override

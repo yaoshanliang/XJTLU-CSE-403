@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import coursework.DisplayHost;
 
-public class ClockDispaly extends JPanel implements ActionListener, DisplayHost {
+public class DateDispaly extends JPanel implements ActionListener, DisplayHost {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,12 +31,10 @@ public class ClockDispaly extends JPanel implements ActionListener, DisplayHost 
 
     private List<Displayable> myDisplayables = new ArrayList<>();
 
-    public ClockDispaly(int x, int y, int w, int h, Clock clock) {
+    public DateDispaly(int x, int y, int w, int h) {
         super();
-        this.clock = clock;
         this.setLocation(x, y);
         this.setSize(w, h);
-        // this.setBackground(Color.BLACK);
         this.x = x;
         this.y = y;
         this.width = w;
@@ -56,21 +54,8 @@ public class ClockDispaly extends JPanel implements ActionListener, DisplayHost 
         String dateString = date.toString();
         FontMetrics fm = g.getFontMetrics();
         int stringWidth = fm.stringWidth(dateString);
-        g.drawString(dateString, this.getWidth() / 2 - stringWidth / 2, 30);
+        g.drawString(dateString, this.getWidth() / 2 - stringWidth / 2 - 100, 30);
     
-        // if (displayStatus == 0) {
-            for (Displayable disp : myDisplayables) {
-                disp.getDisplayable(g);
-            }
-        // }
-        // displayStatus = 1;
-    }
-    @Override
-    public void paintComponents(Graphics g) {
-        System.out.println(999);
-        // TODO Auto-generated method stub
-        super.paintComponents(g);
-
         for (Displayable disp : myDisplayables) {
             disp.getDisplayable(g);
         }

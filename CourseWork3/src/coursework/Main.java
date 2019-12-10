@@ -1,6 +1,6 @@
 package coursework;
 
-import coursework.ClockDispaly;
+import coursework.DateDispaly;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.ZoneId;
@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 
 public class Main {
-    static ClockDispaly clockDispaly;
+    static DateDispaly dateDispaly;
 
     protected static int width = 1000;
     protected static int height = 400;
@@ -21,25 +21,21 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println(locale);
 
-        Clock clock = Clock.system(ZoneId.of("Asia/Shanghai"));// Set timezone to Shanghai
-        Clock ticClock = Clock.tick(clock, Duration.ofSeconds(1));
-
-        // Display the clock
-        clockDispaly = new ClockDispaly(0, 0, width, height, ticClock);
+        // Display the date
+        dateDispaly = new DateDispaly(0, 0, width, height);
 
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(width, height);
         f.setVisible(true);
-        // f.setResizable(false);
-        f.add(clockDispaly);
+        f.add(dateDispaly);
+
+        Stock stock = new Stock(ticker, year, locale);// Get ticker
+
+        dateDispaly.getListOfDisplayables().add(stock);
 
         // Add a timer 
-        // Timer timer = new Timer(1000, clockDispaly);
-        // timer.start();
-
-        Stock stock = new Stock(ticker, year);// Get ticker
-
-        clockDispaly.getListOfDisplayables().add(stock);
+        Timer timer = new Timer(1000, dateDispaly);
+        timer.start();
     }
 }
