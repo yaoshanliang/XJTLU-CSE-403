@@ -16,24 +16,23 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println(locale);
 
-        // Display the date
-        dateDispaly = new DateDispaly(0, 0, width, height);
-
+        // Init the JFrame
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(width, height);
-        
+
+        // Display the date
+        dateDispaly = new DateDispaly(0, 0, width, height);
 
         // Add stock to the display
         Stock stock = new Stock(ticker, year, locale, f);
         dateDispaly.getListOfDisplayables().add(stock);
+        f.add(dateDispaly);
 
         // Add a timer 
         Timer timer = new Timer(1000, dateDispaly);
         timer.start();
 
-        f.add(dateDispaly);
         f.setVisible(true);
-
     }
 }

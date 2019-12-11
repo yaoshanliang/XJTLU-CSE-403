@@ -8,15 +8,12 @@ import java.util.Locale;
 import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Graphics;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Font;
 
 public class Stock extends JPanel implements ActionListener, Displayable {
-    /**
-     *
-     */
+
     private static final long serialVersionUID = 1L;
     private static ArrayList<StockItem> myQuotes = new ArrayList<>();
     private ArrayList<StockItem> tickerData = new ArrayList<>();
@@ -155,6 +152,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
 
         // Show Current tiker info
         StockItem sc = tickerData.get(currentNumber);
+        System.out.println("Current Date: " + sc.getDate().getYear() + " "  + sc.getDate().getMonth() + " " + sc.getDate().getDayOfMonth());
         g2.drawString("Year: " + sc.getDate().getYear(), 800, 30);
         g2.drawString("Month: " + sc.getDate().getMonth(), 800, 55);
         g2.drawString("Day: " + sc.getDate().getDayOfMonth(), 800, 80);

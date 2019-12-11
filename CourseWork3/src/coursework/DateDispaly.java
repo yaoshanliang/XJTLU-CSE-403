@@ -49,6 +49,7 @@ public class DateDispaly extends JPanel implements ActionListener, DisplayHost {
         int stringWidth = fm.stringWidth(dateString);
         g.drawString(dateString, this.getWidth() / 2 - stringWidth / 2, 30);
     
+        // Display each widget
         for (Displayable disp : myDisplayables) {
             disp.getDisplayable(g);
         }
