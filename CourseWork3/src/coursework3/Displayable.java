@@ -1,4 +1,4 @@
-package coursework;
+package coursework3;
 
 import java.awt.Graphics;
 

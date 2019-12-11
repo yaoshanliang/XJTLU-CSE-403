@@ -1,4 +1,4 @@
-package coursework;
+package coursework3;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.awt.event.*;
 import javax.swing.JPanel;
-import coursework.DisplayHost;
+import coursework3.DisplayHost;
 
 public class DateDispaly extends JPanel implements ActionListener, DisplayHost {
 

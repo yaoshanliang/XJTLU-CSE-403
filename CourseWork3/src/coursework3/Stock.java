@@ -1,6 +1,6 @@
-package coursework;
+package coursework3;
 
-import coursework.StockItem;
+import coursework3.StockItem;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
         // Calculate position of each data to fit the screen of 1000x400
         int height = 1;
         int width = 5;
-        int initTop = 100;
+        int initTop = 80;
         int top = 0;
         Color color;
         int lastCloseLeft = 0;
@@ -121,7 +121,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
                 g.fillRect(left, top, width, height);
 
                 // Calculate the position of volume and draw bars
-                double volumeInterval = (double) 80 / maxVolume;
+                double volumeInterval = (double) 100 / maxVolume;
                 double volumeHeight = volumeInterval * si.getVolume();
                 int volumeTop = (int) (400 - volumeHeight); 
                 g.drawRect(left, volumeTop, width, (int) volumeHeight);
@@ -163,7 +163,7 @@ public class Stock extends JPanel implements ActionListener, Displayable {
         font = new Font("SANS-SERIF", Font.BOLD, 20);
         g2.setFont(font);
         g2.drawString("Price", 20, 180);
-        g2.drawString("Volume", 20, 370);
+        g2.drawString("Volume", 20, 350);
 
         if (currentNumber < tickerData.size() - 1) {
             currentNumber++;

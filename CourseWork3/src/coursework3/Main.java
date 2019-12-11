@@ -1,6 +1,6 @@
-package coursework;
+package coursework3;
 
-import coursework.DateDispaly;
+import coursework3.DateDispaly;
 import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.Timer;
