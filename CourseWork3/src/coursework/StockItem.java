@@ -2,7 +2,6 @@ package coursework;
 
 import java.time.LocalDate;
 
-
 public class StockItem {
     private final String ticker;
     private final LocalDate date;
@@ -12,6 +11,7 @@ public class StockItem {
     private final double close;
     private final long volume;
 
+    // construction
     public StockItem(String ticker, LocalDate date, double open, double high, double low, double close, long volume) {
         this.ticker = ticker;
         this.date = date;
